@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+branch="master"
+run_chmod="N"
+msg="a very informative commit msg"
+
+if [ $# -eq 1 ]; then
+	msg="$1"
+elif [ $# -gt 1 ]; then
+	while getopts m:b:x flag;
+	do
+		case "${flag}" in
+			m) msg=${OPTARG};;
+			b) branch=${OPTARG};;
+			x) run_chmod="Y";;
+		esac
+	done
+fi
+
+if [[ $run_chmod == [yY] ]]; then
+	chmod u+x ./*
+fi
+
+git add . && git commit -m "$msg" && git push origin $branch
